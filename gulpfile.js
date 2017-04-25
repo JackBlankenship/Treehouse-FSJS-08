@@ -15,7 +15,7 @@ imagemin = require('gulp-imagemin'),
 
 // gulp build to clean, then scripts, styles, images in that order.
 gulp.task("build", ['clean', 'scripts', 'styles', 'images'], function() {
-	return gulp.src(["index.html"], { base: './'})
+	return gulp.src(["index.html", "icons/**"], { base: './'})
             .pipe(gulp.dest('dist'));
 });
 
@@ -24,7 +24,7 @@ gulp.task("default", ["build"]);
 
 // gulp serve does build and then serve the project
 gulp.task('serve', ['build'], function (){
-	connect.server({
+	return connect.server({
 		root: 'dist',
 		livereload: true
 	});
@@ -33,7 +33,7 @@ gulp.task('serve', ['build'], function (){
 // gulp watch, runs scripts when a change is made to any JavaScript and the current page is reloaded 
 // runs the entire build first. then watches for a change to our JS.
 gulp.task('watch', ['serve'], function () {
-  gulp.watch(['js/**/*.js'], ['scripts', 'html']);
+  return gulp.watch(['js/**/*.js'], ['scripts', 'html']);
 });
 
 gulp.task('html', function() {
@@ -43,7 +43,7 @@ gulp.task('html', function() {
 
 // gulp images to optimize the jpeg & png files, then copy to dist/content
 gulp.task('images', () => {
-    gulp.src('images/*')
+    return gulp.src('images/*')
         .pipe(imagemin())
         .pipe(gulp.dest('dist/content'))
 });
@@ -96,5 +96,5 @@ gulp.task('lint', () => {
 
 // gulp clean to delete all files and folders in dist
 gulp.task('clean', function() {
-  del(['dist', 'js/app*.js*']);			// delete the dist directory, js/app.js and jp/ap.js.map
+  return del(['dist', 'js/app*.js*']);			// delete the dist directory, js/app.js and jp/ap.js.map
 });
